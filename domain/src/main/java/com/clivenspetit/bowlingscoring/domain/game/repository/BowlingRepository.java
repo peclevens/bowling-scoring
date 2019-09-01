@@ -1,4 +1,4 @@
-package com.clivenspetit.bowlingscoring.domain;
+package com.clivenspetit.bowlingscoring.domain.game.repository;
 
 /**
  * @author Clivens Petit <clivens.petit@magicsoftbay.com>
