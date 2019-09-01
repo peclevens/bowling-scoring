@@ -17,10 +17,10 @@ import java.util.Objects;
  */
 public class BowlingRepositoryImpl implements BowlingRepository {
 
-    private final Cache<String, GameContent> gameCache;
+    private final Cache<String, GameContent> gameContentCache;
 
-    public BowlingRepositoryImpl(Cache<String, GameContent> gameCache) {
-        this.gameCache = gameCache;
+    public BowlingRepositoryImpl(Cache<String, GameContent> gameContentCache) {
+        this.gameContentCache = gameContentCache;
     }
 
     /**
@@ -37,13 +37,13 @@ public class BowlingRepositoryImpl implements BowlingRepository {
         File file = new File(filePath);
         if (!file.exists()) {
             // Remove file from cache immediately if it got deleted
-            gameCache.invalidate(filePath);
+            gameContentCache.invalidate(filePath);
 
             throw new IllegalArgumentException(String.format("File '%s' does not exist.", filePath));
         }
 
         // Try to retrieve game content from cache
-        GameContent gameContent = gameCache.getIfPresent(filePath);
+        GameContent gameContent = gameContentCache.getIfPresent(filePath);
 
         // If game has not load yet or the game content is outdated, reload it.
         if (gameContent == null || gameContent.getLastModified() < file.lastModified()) {
@@ -57,7 +57,7 @@ public class BowlingRepositoryImpl implements BowlingRepository {
             }
 
             // Cache this game content
-            gameCache.put(filePath, gameContent);
+            gameContentCache.put(filePath, gameContent);
         }
 
         return gameContent.getContent();

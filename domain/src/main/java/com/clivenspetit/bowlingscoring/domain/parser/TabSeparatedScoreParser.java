@@ -14,11 +14,6 @@ public class TabSeparatedScoreParser implements ScoreParser {
     private static final String PLAYER_SCORE_REGEX = "^(?:[0-9]0?|F)$";
 
     /**
-     * Player score map
-     */
-    private final Map<String, List<String>> players = new LinkedHashMap<>();
-
-    /**
      * Parse content to build a map of all players and their respective scores.
      *
      * @param content
@@ -28,16 +23,19 @@ public class TabSeparatedScoreParser implements ScoreParser {
     public Map<String, List<String>> parse(String content) {
         Objects.requireNonNull(content, "Content cannot be null.");
 
+        // Player score map
+        final Map<String, List<String>> players = new LinkedHashMap<>();
+
         // Parse each line to build a map of player name and their corresponding score
         String[] lines = content.split(LINE_BREAK);
         IntStream.range(0, lines.length)
                 .filter(index -> lines[index] != null && !lines[index].trim().equals(""))
-                .forEach(index -> processPlayerScore(index, lines[index]));
+                .forEach(index -> processPlayerScore(index, lines[index], players));
 
         return players;
     }
 
-    private void processPlayerScore(final int lineNumber, final String line) {
+    private void processPlayerScore(final int lineNumber, final String line, Map<String, List<String>> players) {
         // Split line to retrieve player name and score
         final String[] parts = line.split(TAB_BREAK);
 
