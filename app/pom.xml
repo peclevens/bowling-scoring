@@ -14,6 +14,10 @@
     <artifactId>bowling-scoring-app</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <guice.version>4.2.2</guice.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.clivenspetit.bowlingscoring</groupId>
@@ -27,6 +31,19 @@
             <artifactId>bowling-scoring-data</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
+        </dependency>
+
+        <!-- Google Guice Dependency Injection Management Framework-->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+
+        <!-- JUnit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
 </project>
