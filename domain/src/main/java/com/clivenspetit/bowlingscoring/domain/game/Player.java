@@ -7,10 +7,23 @@ import java.util.Objects;
  */
 public class Player {
 
-    private static final int MAX_GAME_FRAME = 10;
+    private static final int DEFAULT_MAX_GAME_FRAME = 10;
 
     private String name;
-    private Frame[] frames = new Frame[MAX_GAME_FRAME];
+    private Frame[] frames;
+
+    public Player() {
+        frames = new Frame[DEFAULT_MAX_GAME_FRAME];
+    }
+
+    public Player(String name) {
+        this(name, new Frame[DEFAULT_MAX_GAME_FRAME]);
+    }
+
+    public Player(String name, Frame[] frames) {
+        this.setName(name);
+        this.setFrames(frames);
+    }
 
     public String getName() {
         return name;
@@ -27,22 +40,26 @@ public class Player {
     }
 
     public void setFrames(Frame[] frames) {
+        Objects.requireNonNull(frames, "Frames cannot be null.");
+
         this.frames = frames;
     }
 
-    public void setFrame(int index, Frame frame) {
+    public void addFrame(int index, Frame frame) {
         Objects.requireNonNull(frame, "Frame cannot be null.");
 
-        if (index < 0 || index >= MAX_GAME_FRAME) {
+        if (index < 0 || index >= frames.length) {
             throw new IllegalArgumentException(String.format("Frame index should be between 0 to %d exclusive.",
-                    MAX_GAME_FRAME));
+                    frames.length));
         }
 
         this.frames[index] = frame;
     }
 
     public short calculateScore() {
-        Frame frame = frames[MAX_GAME_FRAME - 1];
+        if (frames == null) return 0;
+
+        Frame frame = frames[frames.length - 1];
         return frame != null ? frame.getScore() : 0;
     }
 

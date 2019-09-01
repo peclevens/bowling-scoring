@@ -25,6 +25,15 @@ public class Frame {
      */
     private short score = -1;
 
+    public Frame() {
+
+    }
+
+    public Frame(char firstBallScore, char secondBallScore) {
+        this.firstBallScore = firstBallScore;
+        this.secondBallScore = secondBallScore;
+    }
+
     public char getFirstBallScore() {
         return firstBallScore;
     }
