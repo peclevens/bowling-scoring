@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <!-- LOG everything at WARN level -->
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <!-- LOG "com.clivenspetit*" at DEBUG level -->
+        <Logger name="com.clivenspetit" level="debug"/>
+    </Loggers>
+</Configuration>
