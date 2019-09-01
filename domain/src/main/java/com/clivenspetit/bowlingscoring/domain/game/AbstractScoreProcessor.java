@@ -1,6 +1,5 @@
 package com.clivenspetit.bowlingscoring.domain.game;
 
-import com.clivenspetit.bowlingscoring.domain.game.validator.Validator;
 import com.clivenspetit.bowlingscoring.domain.parser.ScoreParser;
 import com.google.common.cache.Cache;
 
@@ -13,19 +12,16 @@ import java.util.Objects;
  */
 public abstract class AbstractScoreProcessor {
 
-    protected final Validator<Player> playerValidator;
-
     private final ScoreParser scoreParser;
     private final Cache<Integer, Map<String, List<String>>> parsedGameCache;
     private final Cache<Integer, List<Player>> playersCache;
     private String content;
 
     public AbstractScoreProcessor(
-            ScoreParser scoreParser, Validator<Player> playerValidator,
-            Cache<Integer, Map<String, List<String>>> parsedGameCache, Cache<Integer, List<Player>> playersCache) {
+            ScoreParser scoreParser, Cache<Integer, Map<String, List<String>>> parsedGameCache,
+            Cache<Integer, List<Player>> playersCache) {
 
         this.scoreParser = scoreParser;
-        this.playerValidator = playerValidator;
         this.parsedGameCache = parsedGameCache;
         this.playersCache = playersCache;
     }
