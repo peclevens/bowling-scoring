@@ -42,7 +42,7 @@ public class TabSeparatedScoreParser implements ScoreParser {
         // Make sure this line includes exactly a tab separated player name and score
         if (parts.length != 2) {
             throw new IllegalArgumentException(String.format("Line %d should contain a tab separated " +
-                    "player name and score. Ex: John\t5.", (lineNumber + 1)));
+                    "player name and score. Ex: 'John\t5'.", (lineNumber + 1)));
         }
 
         String player = parts[0];

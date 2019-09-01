@@ -13,6 +13,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,17 @@ public class AppModule extends AbstractModule {
     @Provides
     @Singleton
     public Cache<Integer, List<Player>> provideGamePlayerCache() {
+
+        return CacheBuilder.newBuilder()
+                .maximumSize(DEFAULT_CACHE_MAX_ITEM)
+                .expireAfterWrite(DEFAULT_CACHE_INVALIDATE_AFTER_WRITE, TimeUnit.SECONDS)
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    @Named("gameResult")
+    public Cache<String, String> provideGameResultCache() {
 
         return CacheBuilder.newBuilder()
                 .maximumSize(DEFAULT_CACHE_MAX_ITEM)

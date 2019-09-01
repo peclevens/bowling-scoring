@@ -6,6 +6,8 @@ import com.google.inject.Injector;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+
 /**
  * @author Clivens Petit <clivens.petit@magicsoftbay.com>
  */
@@ -13,7 +15,7 @@ public class Application {
 
     private static final Logger logger = LogManager.getLogger(Application.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Make sure that at least one argument is supplied to the program
         if (args.length == 0) {
             logger.error("Please provide a game result file to process.");

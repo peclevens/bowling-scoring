@@ -5,7 +5,6 @@ import com.google.common.cache.Cache;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Clivens Petit <clivens.petit@magicsoftbay.com>
@@ -15,7 +14,6 @@ public abstract class AbstractScoreProcessor {
     private final ScoreParser scoreParser;
     private final Cache<Integer, Map<String, List<String>>> parsedGameCache;
     private final Cache<Integer, List<Player>> playersCache;
-    private String content;
 
     public AbstractScoreProcessor(
             ScoreParser scoreParser, Cache<Integer, Map<String, List<String>>> parsedGameCache,
@@ -27,34 +25,11 @@ public abstract class AbstractScoreProcessor {
     }
 
     /**
-     * Return the current game content being processed.
-     *
-     * @return
-     */
-    public final String getContent() {
-        return content;
-    }
-
-    /**
-     * Set the game content to be parsed
-     *
-     * @param content
-     * @return
-     */
-    public final AbstractScoreProcessor setContent(String content) {
-        Objects.requireNonNull(content, "Content cannot be null.");
-
-        this.content = content;
-
-        return this;
-    }
-
-    /**
      * Process and calculate player scores.
      *
      * @return
      */
-    public List<Player> process() {
+    public List<Player> process(String content) {
         // Calculate a unique key for this content
         Integer contentKey = content.hashCode();
 
