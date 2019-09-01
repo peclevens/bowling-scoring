@@ -14,5 +14,5 @@ public interface ScoreParser {
      * @param content
      * @return
      */
-    Map<String, List<Character>> parse(String content);
+    Map<String, List<String>> parse(String content);
 }

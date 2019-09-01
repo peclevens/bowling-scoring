@@ -14,7 +14,7 @@ public class TenPinAbstractScoreProcessor extends AbstractScoreProcessor {
 
     public TenPinAbstractScoreProcessor(
             ScoreParser scoreParser, Validator<Player> playerValidator,
-            Cache<Integer, Map<String, List<Character>>> parsedGameCache, Cache<Integer, List<Player>> playersCache) {
+            Cache<Integer, Map<String, List<String>>> parsedGameCache, Cache<Integer, List<Player>> playersCache) {
 
         super(scoreParser, playerValidator, parsedGameCache, playersCache);
     }
@@ -26,7 +26,7 @@ public class TenPinAbstractScoreProcessor extends AbstractScoreProcessor {
      * @return
      */
     @Override
-    protected List<Player> process(Map<String, List<Character>> scores) {
+    protected List<Player> process(Map<String, List<String>> scores) {
         return null;
     }
 }

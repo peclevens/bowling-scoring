@@ -16,13 +16,13 @@ public abstract class AbstractScoreProcessor {
     protected final Validator<Player> playerValidator;
 
     private final ScoreParser scoreParser;
-    private final Cache<Integer, Map<String, List<Character>>> parsedGameCache;
+    private final Cache<Integer, Map<String, List<String>>> parsedGameCache;
     private final Cache<Integer, List<Player>> playersCache;
     private String content;
 
     public AbstractScoreProcessor(
             ScoreParser scoreParser, Validator<Player> playerValidator,
-            Cache<Integer, Map<String, List<Character>>> parsedGameCache, Cache<Integer, List<Player>> playersCache) {
+            Cache<Integer, Map<String, List<String>>> parsedGameCache, Cache<Integer, List<Player>> playersCache) {
 
         this.scoreParser = scoreParser;
         this.playerValidator = playerValidator;
@@ -63,7 +63,7 @@ public abstract class AbstractScoreProcessor {
         Integer contentKey = content.hashCode();
 
         // Try to retrieve parse content from cache
-        Map<String, List<Character>> scores = parsedGameCache.getIfPresent(contentKey);
+        Map<String, List<String>> scores = parsedGameCache.getIfPresent(contentKey);
 
         // Game content is not cached yet, parse and cache it
         if (scores == null) {
@@ -94,5 +94,5 @@ public abstract class AbstractScoreProcessor {
      * @param scores
      * @return
      */
-    protected abstract List<Player> process(Map<String, List<Character>> scores);
+    protected abstract List<Player> process(Map<String, List<String>> scores);
 }
