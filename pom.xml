@@ -23,6 +23,8 @@
         <java.version>1.8</java.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <guava.version>28.1-jre</guava.version>
+        <log4j.version>2.12.1</log4j.version>
+        <bowling-scoring.version>1.0</bowling-scoring.version>
     </properties>
 
     <dependencyManagement>
@@ -32,6 +34,32 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <!-- Bowling Scoring Module -->
+            <dependency>
+                <groupId>com.clivenspetit.bowlingscoring</groupId>
+                <artifactId>bowling-scoring-domain</artifactId>
+                <version>${bowling-scoring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.clivenspetit.bowlingscoring</groupId>
+                <artifactId>bowling-scoring-data</artifactId>
+                <version>${bowling-scoring.version}</version>
+            </dependency>
+
+            <!-- Apache Log4j2 -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
 
             <!-- JUnit -->

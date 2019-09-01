@@ -14,11 +14,10 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- Bowling Scoring Module -->
         <dependency>
             <groupId>com.clivenspetit.bowlingscoring</groupId>
             <artifactId>bowling-scoring-domain</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
         </dependency>
 
         <!-- Guava -->
