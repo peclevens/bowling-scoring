@@ -175,6 +175,12 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
                     frame.setScore(total);
                 }
             }
+
+            // Adjust last frame score value if necessary
+            Frame lastFrame = frames[frames.length - 1];
+            if (lastFrame.getThirdBallScore() != '\0') {
+                lastFrame.setScore((short) (lastFrame.getScore() + calculateScore(lastFrame.getThirdBallScore())));
+            }
         } catch (InsufficientFrameException ex) {
             throw new IllegalArgumentException(String.format("Insufficient frame for player %s.", player.getName()));
         }
