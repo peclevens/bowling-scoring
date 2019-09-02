@@ -106,11 +106,14 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
 
             lastFrame.setThirdBallScore(translateScore(lastFrame.getFirstBallScore(),
                     getScoreAt(++scoreIndex, scores)));
-        } else if (lastFrame.getFirstBallScore() != '/') {
+        } else if (lastFrame.getFirstBallScore() != '/') { // The first ball pin-fall is assumed to be between 0-9
             lastFrame.setSecondBallScore(translateScore(lastFrame.getFirstBallScore(),
                     getScoreAt(++scoreIndex, scores)));
 
-            if ((scoreIndex + 1) < scores.size()) {
+            // Process the third row only If the previous roll was a strike or spare
+            if ((scoreIndex + 1) < scores.size() && lastFrame.getSecondBallScore() == 'X'
+                    && lastFrame.getSecondBallScore() == '/') {
+
                 lastFrame.setThirdBallScore(translateScore(lastFrame.getSecondBallScore(),
                         getScoreAt(++scoreIndex, scores)));
             }
