@@ -6,6 +6,6 @@ package com.clivenspetit.bowlingscoring.domain.game.exception;
 public class InsufficientScoreException extends RuntimeException {
 
     public InsufficientScoreException() {
-        super("Invalid frame position.");
+        super("Invalid score position.");
     }
 }

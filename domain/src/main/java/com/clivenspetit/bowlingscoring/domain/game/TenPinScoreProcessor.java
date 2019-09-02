@@ -110,8 +110,10 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
             lastFrame.setSecondBallScore(translateScore(lastFrame.getFirstBallScore(),
                     getScoreAt(++scoreIndex, scores)));
 
-            lastFrame.setThirdBallScore(translateScore(lastFrame.getSecondBallScore(),
-                    getScoreAt(++scoreIndex, scores)));
+            if ((scoreIndex + 1) < scores.size()) {
+                lastFrame.setThirdBallScore(translateScore(lastFrame.getSecondBallScore(),
+                        getScoreAt(++scoreIndex, scores)));
+            }
         }
 
         // Add frame
