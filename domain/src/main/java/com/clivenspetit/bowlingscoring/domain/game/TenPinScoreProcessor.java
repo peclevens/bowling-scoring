@@ -110,8 +110,8 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
                     getScoreAt(++scoreIndex, scores)));
 
             // Process the third row only If the previous roll was a strike or spare
-            if ((scoreIndex + 1) < scores.size() && lastFrame.getSecondBallScore() == 'X'
-                    && lastFrame.getSecondBallScore() == '/') {
+            if ((scoreIndex + 1) < scores.size() && (lastFrame.getSecondBallScore() == 'X'
+                    || lastFrame.getSecondBallScore() == '/')) {
 
                 lastFrame.setThirdBallScore(translateScore(lastFrame.getSecondBallScore(),
                         getScoreAt(++scoreIndex, scores)));
