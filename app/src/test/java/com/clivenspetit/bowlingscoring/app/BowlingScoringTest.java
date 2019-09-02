@@ -1,6 +1,7 @@
 package com.clivenspetit.bowlingscoring.app;
 
 import com.clivenspetit.bowlingscoring.domain.game.AbstractScoreProcessor;
+import com.clivenspetit.bowlingscoring.domain.game.Player;
 import com.clivenspetit.bowlingscoring.domain.game.repository.BowlingRepository;
 import com.clivenspetit.bowlingscoring.domain.utility.FileUtils;
 import com.google.common.cache.Cache;
@@ -13,6 +14,8 @@ import org.mockito.ArgumentCaptor;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -50,6 +53,29 @@ public class BowlingScoringTest {
 
         when(bowlingRepository.loadGameResultFromFile(realPath))
                 .thenReturn(allStrikeContent);
+
+        when(scoreProcessor.process(allStrikeContent))
+                .thenReturn(buildStubAllStrikePlayer());
+    }
+
+    private List<Player> buildStubAllStrikePlayer() {
+        List<Player> players = new ArrayList<>();
+
+        Player player = new Player("Carl");
+        player.addFrame(0, new StubFrame('\0', 'X', '\0', 30));
+        player.addFrame(1, new StubFrame('\0', 'X', '\0', 60));
+        player.addFrame(2, new StubFrame('\0', 'X', '\0', 90));
+        player.addFrame(3, new StubFrame('\0', 'X', '\0', 120));
+        player.addFrame(4, new StubFrame('\0', 'X', '\0', 150));
+        player.addFrame(5, new StubFrame('\0', 'X', '\0', 180));
+        player.addFrame(6, new StubFrame('\0', 'X', '\0', 210));
+        player.addFrame(7, new StubFrame('\0', 'X', '\0', 240));
+        player.addFrame(8, new StubFrame('\0', 'X', '\0', 270));
+        player.addFrame(9, new StubFrame('X', 'X', 'X', 300));
+
+        players.add(player);
+
+        return players;
     }
 
     @After
