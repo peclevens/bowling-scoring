@@ -1,5 +1,7 @@
 package com.clivenspetit.bowlingscoring.domain.game;
 
+import com.clivenspetit.bowlingscoring.domain.game.exception.InsufficientFrameException;
+import com.clivenspetit.bowlingscoring.domain.game.exception.InsufficientScoreException;
 import com.clivenspetit.bowlingscoring.domain.parser.ScoreParser;
 import com.google.common.cache.Cache;
 
@@ -40,7 +42,7 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
             fillPlayerFrames(player, scores);
 
             // Calculate frames score
-            calculateFramesScore(player.getFrames());
+            calculateFramesScore(player);
 
             // Add player
             players.add(player);
@@ -88,7 +90,7 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
                 throw new IllegalArgumentException(String.format("Too many score provided for player %s.",
                         player.getName()));
             }
-        } catch (ArrayIndexOutOfBoundsException ex) {
+        } catch (InsufficientScoreException ex) {
             throw new IllegalArgumentException(String.format("Insufficient score for player %s.", player.getName()));
         }
     }
@@ -118,12 +120,83 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
     }
 
     /**
-     * Calculate the score for all frames.
+     * Calculate the score for all frames of particular player.
      *
-     * @param frames
+     * @param player
      */
-    public void calculateFramesScore(Frame[] frames) {
+    public void calculateFramesScore(Player player) {
+        try {
+            Frame[] frames = player.getFrames();
 
+            for (int index = 0; index < frames.length; index++) {
+                Frame frame = frames[index];
+                short total = 0;
+
+                if (frame.getSecondBallScore() == 'X') { // Calculate strikes
+                    Frame firstNextFrame = getFrameAt(index + 1, frames);
+                    if (firstNextFrame.getSecondBallScore() == 'X') {
+                        Frame secondNextFrame = getFrameAt(index + 2, frames);
+                        if (secondNextFrame.getFirstBallScore() != '\0') {
+                            total = (short) (calculateScore(frame.getSecondBallScore())
+                                    + calculateScore(firstNextFrame.getSecondBallScore())
+                                    + calculateScore(secondNextFrame.getFirstBallScore()));
+                        } else {
+                            total = (short) (calculateScore(frame.getSecondBallScore())
+                                    + calculateScore(frame.getSecondBallScore())
+                                    + calculateScore(secondNextFrame.getSecondBallScore()));
+                        }
+                    } else if (firstNextFrame.getSecondBallScore() == '/') {
+                        total = (short) (calculateScore(frame.getSecondBallScore())
+                                + calculateScore(firstNextFrame.getSecondBallScore()));
+                    } else {
+                        total = (short) (calculateScore(frame.getSecondBallScore())
+                                + calculateScore(firstNextFrame.getFirstBallScore())
+                                + calculateScore(firstNextFrame.getSecondBallScore()));
+                    }
+                } else if (frame.getSecondBallScore() == '/') { // Calculate spare
+                    Frame firstNextFrame = getFrameAt(index + 1, frames);
+                    if (firstNextFrame.getSecondBallScore() == 'X') {
+                        total = (short) (calculateScore(frame.getSecondBallScore())
+                                + calculateScore(firstNextFrame.getSecondBallScore()));
+                    } else {
+                        total = (short) (calculateScore(frame.getSecondBallScore())
+                                + calculateScore(firstNextFrame.getFirstBallScore()));
+                    }
+                } else { // Calculate open
+                    total = (short) (calculateScore(frame.getFirstBallScore())
+                            + calculateScore(frame.getSecondBallScore()));
+                }
+
+                // Calculate and/or set frame total score
+                if (index > 0) {
+                    Frame previousFrame = getFrameAt(index - 1, frames);
+                    frame.setScore((short) (previousFrame.getScore() + total));
+                } else {
+                    frame.setScore(total);
+                }
+            }
+        } catch (InsufficientFrameException ex) {
+            throw new IllegalArgumentException(String.format("Insufficient frame for player %s.", player.getName()));
+        }
+    }
+
+
+    /**
+     * Calculate score for frame's roll.
+     *
+     * @param score
+     * @return
+     */
+    public short calculateScore(final char score) {
+        if (score == 'X' || score == '/') {
+            return 10;
+        } else if (score == 'F') {
+            return 0;
+        } else if (score >= '0' && score <= '9') {
+            return (short) Character.getNumericValue(score);
+        }
+
+        throw new IllegalArgumentException(String.format("Invalid ten-pin bowling score. " + "Score: %c.", score));
     }
 
     /**
@@ -152,7 +225,7 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
     }
 
     /**
-     * Get the at a specific index.
+     * Get the score at a specific index.
      *
      * @param index
      * @param scores
@@ -160,8 +233,22 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
      */
     private String getScoreAt(final int index, final List<String> scores) {
         if (index >= scores.size())
-            throw new ArrayIndexOutOfBoundsException("Invalid score position.");
+            throw new InsufficientScoreException();
 
         return scores.get(index);
+    }
+
+    /**
+     * Get the frame at a specific index.
+     *
+     * @param index
+     * @param frames
+     * @return
+     */
+    private Frame getFrameAt(final int index, final Frame[] frames) {
+        if (index >= frames.length)
+            throw new InsufficientFrameException();
+
+        return frames[index];
     }
 }
