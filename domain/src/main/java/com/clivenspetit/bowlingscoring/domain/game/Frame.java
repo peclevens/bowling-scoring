@@ -23,7 +23,7 @@ public class Frame {
     /**
      * The frame score
      */
-    private short score = -1;
+    private short score = 0;
 
     public Frame() {
 

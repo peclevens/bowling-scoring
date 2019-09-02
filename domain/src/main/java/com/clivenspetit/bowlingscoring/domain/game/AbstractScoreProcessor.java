@@ -62,8 +62,8 @@ public abstract class AbstractScoreProcessor {
     /**
      * Process and calculate player scores.
      *
-     * @param scores
+     * @param playerScores
      * @return
      */
-    protected abstract List<Player> process(Map<String, List<String>> scores);
+    protected abstract List<Player> process(final Map<String, List<String>> playerScores);
 }
