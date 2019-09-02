@@ -136,44 +136,9 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
             int total;
 
             if (frame.getSecondBallScore() == 'X') { // Calculate strikes
-                Frame firstNextFrame = getFrameAt(index + 1, frames);
-                if (firstNextFrame != null && firstNextFrame.getSecondBallScore() == 'X') {
-                    Frame secondNextFrame = getFrameAt(index + 2, frames);
-                    if (secondNextFrame != null && secondNextFrame.getFirstBallScore() != '\0') {
-                        total = calculateScore(frame.getSecondBallScore())
-                                + calculateScore(firstNextFrame.getSecondBallScore())
-                                + calculateScore(secondNextFrame.getFirstBallScore());
-                    } else if (secondNextFrame != null) {
-                        total = calculateScore(frame.getSecondBallScore())
-                                + calculateScore(frame.getSecondBallScore())
-                                + calculateScore(secondNextFrame.getSecondBallScore());
-                    } else {
-                        total = calculateScore(frame.getSecondBallScore())
-                                + calculateScore(firstNextFrame.getFirstBallScore())
-                                + calculateScore(firstNextFrame.getSecondBallScore());
-                    }
-                } else if (firstNextFrame != null && firstNextFrame.getSecondBallScore() == '/') {
-                    total = calculateScore(frame.getSecondBallScore())
-                            + calculateScore(firstNextFrame.getSecondBallScore());
-                } else if (firstNextFrame != null) {
-                    total = calculateScore(frame.getSecondBallScore())
-                            + calculateScore(firstNextFrame.getFirstBallScore())
-                            + calculateScore(firstNextFrame.getSecondBallScore());
-                } else {
-                    total = calculateScore(frame.getFirstBallScore())
-                            + calculateScore(frame.getSecondBallScore());
-                }
+                total = calculateStrike(index, frame, frames);
             } else if (frame.getSecondBallScore() == '/') { // Calculate spare
-                Frame firstNextFrame = getFrameAt(index + 1, frames);
-                if (firstNextFrame != null && firstNextFrame.getSecondBallScore() == 'X') {
-                    total = calculateScore(frame.getSecondBallScore())
-                            + calculateScore(firstNextFrame.getSecondBallScore());
-                } else if (firstNextFrame != null) {
-                    total = calculateScore(frame.getSecondBallScore())
-                            + calculateScore(firstNextFrame.getFirstBallScore());
-                } else {
-                    total = calculateScore(frame.getSecondBallScore());
-                }
+                total = calculateSpare(index, frame, frames);
             } else { // Calculate open
                 total = calculateScore(frame.getFirstBallScore())
                         + calculateScore(frame.getSecondBallScore());
@@ -193,6 +158,73 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
         if (lastFrame.getThirdBallScore() != '\0') {
             lastFrame.setScore(lastFrame.getScore() + calculateScore(lastFrame.getThirdBallScore()));
         }
+    }
+
+    /**
+     * Calculate frame strike score
+     *
+     * @param index
+     * @param frame
+     * @param frames
+     * @return
+     */
+    private int calculateStrike(int index, Frame frame, Frame[] frames) {
+        int total;
+        Frame firstNextFrame = getFrameAt(index + 1, frames);
+
+        if (firstNextFrame != null && firstNextFrame.getSecondBallScore() == 'X') {
+            Frame secondNextFrame = getFrameAt(index + 2, frames);
+            if (secondNextFrame != null && secondNextFrame.getFirstBallScore() != '\0') {
+                total = calculateScore(frame.getSecondBallScore())
+                        + calculateScore(firstNextFrame.getSecondBallScore())
+                        + calculateScore(secondNextFrame.getFirstBallScore());
+            } else if (secondNextFrame != null) {
+                total = calculateScore(frame.getSecondBallScore())
+                        + calculateScore(frame.getSecondBallScore())
+                        + calculateScore(secondNextFrame.getSecondBallScore());
+            } else {
+                total = calculateScore(frame.getSecondBallScore())
+                        + calculateScore(firstNextFrame.getFirstBallScore())
+                        + calculateScore(firstNextFrame.getSecondBallScore());
+            }
+        } else if (firstNextFrame != null && firstNextFrame.getSecondBallScore() == '/') {
+            total = calculateScore(frame.getSecondBallScore())
+                    + calculateScore(firstNextFrame.getSecondBallScore());
+        } else if (firstNextFrame != null) {
+            total = calculateScore(frame.getSecondBallScore())
+                    + calculateScore(firstNextFrame.getFirstBallScore())
+                    + calculateScore(firstNextFrame.getSecondBallScore());
+        } else {
+            total = calculateScore(frame.getFirstBallScore())
+                    + calculateScore(frame.getSecondBallScore());
+        }
+
+        return total;
+    }
+
+    /**
+     * Calculate frame spare score
+     *
+     * @param index
+     * @param frame
+     * @param frames
+     * @return
+     */
+    private int calculateSpare(int index, Frame frame, Frame[] frames) {
+        int total;
+        Frame firstNextFrame = getFrameAt(index + 1, frames);
+
+        if (firstNextFrame != null && firstNextFrame.getSecondBallScore() == 'X') {
+            total = calculateScore(frame.getSecondBallScore())
+                    + calculateScore(firstNextFrame.getSecondBallScore());
+        } else if (firstNextFrame != null) {
+            total = calculateScore(frame.getSecondBallScore())
+                    + calculateScore(firstNextFrame.getFirstBallScore());
+        } else {
+            total = calculateScore(frame.getSecondBallScore());
+        }
+
+        return total;
     }
 
     /**
