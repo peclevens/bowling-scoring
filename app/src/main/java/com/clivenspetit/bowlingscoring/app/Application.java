@@ -24,7 +24,7 @@ public class Application {
 
         // Warn the user that additional file won't be processed if provided
         if (args.length > 1) {
-            logger.warn("More than one argument has been passed to the program, please not that " +
+            logger.warn("More than one argument has been passed to the program, please note that " +
                     "only the first one will be processed.");
         }
 
