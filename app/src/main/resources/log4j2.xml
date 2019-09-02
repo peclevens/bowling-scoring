@@ -20,6 +20,6 @@
         </Root>
 
         <!-- LOG "com.clivenspetit*" at DEBUG level -->
-        <Logger name="com.clivenspetit" level="debug"/>
+        <Logger name="com.clivenspetit" level="warn"/>
     </Loggers>
 </Configuration>
