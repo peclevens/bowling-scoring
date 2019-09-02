@@ -58,28 +58,42 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
     public void fillPlayerFrames(final Player player, final List<String> scores) {
         int scoreIndex = 0, frameIndex = 0, totalFrame = player.getFrames().length;
 
-        // Build frames
-        while (frameIndex < (totalFrame - 1)) {
-            Frame frame = new Frame();
+        try {
+            // Build frames
+            while (frameIndex < (totalFrame - 1)) {
+                Frame frame = new Frame();
 
-            // Process first frame first ball
-            char score = translateScore('\0', getScoreAt(scoreIndex, scores));
-            if (score == 'X') frame.setSecondBallScore(score);
-            else frame.setFirstBallScore(score);
+                // Process first frame first ball
+                char score = translateScore('\0', getScoreAt(scoreIndex, scores));
+                if (score == 'X') frame.setSecondBallScore(score);
+                else frame.setFirstBallScore(score);
 
-            // Process first frame second ball
-            if (score != 'X') {
-                frame.setSecondBallScore(translateScore(frame.getFirstBallScore(),
-                        getScoreAt(++scoreIndex, scores)));
+                // Process first frame second ball
+                if (score != 'X') {
+                    frame.setSecondBallScore(translateScore(frame.getFirstBallScore(),
+                            getScoreAt(++scoreIndex, scores)));
+                }
+
+                // Add frame
+                player.addFrame(frameIndex, frame);
+
+                scoreIndex++;
+                frameIndex++;
             }
 
-            // Add frame
-            player.addFrame(frameIndex, frame);
+            scoreIndex = processLastFrame(player, scores, scoreIndex, frameIndex);
 
-            scoreIndex++;
-            frameIndex++;
+            // Make sure we don't
+            if (scoreIndex != (scores.size() - 1)) {
+                throw new IllegalArgumentException(String.format("Too many score provided for player %s.",
+                        player.getName()));
+            }
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            throw new IllegalArgumentException(String.format("Insufficient score for player %s.", player.getName()));
         }
+    }
 
+    private int processLastFrame(Player player, List<String> scores, int scoreIndex, int frameIndex) {
         // Handle the last frame
         Frame lastFrame = new Frame();
 
@@ -100,6 +114,7 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
 
         // Add frame
         player.addFrame(frameIndex, lastFrame);
+        return scoreIndex;
     }
 
     /**
@@ -145,7 +160,7 @@ public class TenPinScoreProcessor extends AbstractScoreProcessor {
      */
     private String getScoreAt(final int index, final List<String> scores) {
         if (index >= scores.size())
-            throw new IllegalArgumentException("Insufficient score.");
+            throw new ArrayIndexOutOfBoundsException("Invalid score position.");
 
         return scores.get(index);
     }
