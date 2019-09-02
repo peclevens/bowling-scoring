@@ -1,11 +1,11 @@
 package com.clivenspetit.bowlingscoring.data;
 
 import com.clivenspetit.bowlingscoring.domain.game.repository.BowlingRepository;
-import com.google.common.base.Charsets;
 import com.google.common.cache.Cache;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -49,7 +49,7 @@ public class BowlingRepositoryImpl implements BowlingRepository {
         if (gameContent == null || gameContent.getLastModified() < file.lastModified()) {
             byte[] contentBytes = Files.readAllBytes(Paths.get(filePath));
 
-            gameContent = new GameContent(new String(contentBytes, Charsets.UTF_8), file.lastModified());
+            gameContent = new GameContent(new String(contentBytes, StandardCharsets.UTF_8), file.lastModified());
 
             // Make sure the file has some content in it
             if (gameContent.getContent() == null || gameContent.getContent().trim().equals("")) {
