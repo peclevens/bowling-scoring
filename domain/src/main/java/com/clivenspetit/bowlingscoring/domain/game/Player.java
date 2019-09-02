@@ -56,7 +56,7 @@ public class Player {
         this.frames[index] = frame;
     }
 
-    public short calculateScore() {
+    public int calculateScore() {
         if (frames == null) return 0;
 
         Frame frame = frames[frames.length - 1];

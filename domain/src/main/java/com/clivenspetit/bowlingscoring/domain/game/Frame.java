@@ -23,7 +23,7 @@ public class Frame {
     /**
      * The frame score
      */
-    private short score = 0;
+    private int score = 0;
 
     public Frame() {
 
@@ -58,11 +58,11 @@ public class Frame {
         this.thirdBallScore = thirdBallScore;
     }
 
-    public short getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(short score) {
+    public void setScore(int score) {
         this.score = score;
     }
 }
