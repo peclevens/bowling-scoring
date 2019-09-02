@@ -51,13 +51,13 @@ public class TabSeparatedScoreParser implements ScoreParser {
         // Validate player name
         if (!player.matches(PLAYER_NAME_REGEX)) {
             throw new IllegalArgumentException(String.format("Invalid player name '%s' in line %d.",
-                    player, lineNumber));
+                    player, (lineNumber + 1)));
         }
 
         // Validate player score
         if (!score.matches(PLAYER_SCORE_REGEX)) {
             throw new IllegalArgumentException(String.format("Invalid score '%s' for player name '%s' in line %d.",
-                    score, player, lineNumber));
+                    score, player, (lineNumber + 1)));
         }
 
         // Add player score
