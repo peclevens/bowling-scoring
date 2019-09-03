@@ -23,6 +23,7 @@
         <mockito.version>3.0.0</mockito.version>
         <java.version>1.8</java.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
         <guava.version>28.1-jre</guava.version>
         <log4j.version>2.12.1</log4j.version>
         <bowling-scoring.version>1.0</bowling-scoring.version>
@@ -100,6 +101,26 @@
                         <source>${java.version}</source>
                         <target>${java.version}</target>
                     </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven-failsafe-plugin.version}</version>
+                    <configuration>
+                        <groups>com.clivenspetit.bowlingscoring.domain.IntegrationTest</groups>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                            </goals>
+                            <configuration>
+                                <includes>
+                                    <include>**/*.class</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
