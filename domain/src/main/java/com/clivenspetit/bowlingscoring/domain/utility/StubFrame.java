@@ -1,4 +1,4 @@
-package com.clivenspetit.bowlingscoring.app;
+package com.clivenspetit.bowlingscoring.domain.utility;
 
 import com.clivenspetit.bowlingscoring.domain.game.Frame;
 

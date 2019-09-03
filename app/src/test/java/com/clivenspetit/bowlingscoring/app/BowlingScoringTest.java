@@ -4,6 +4,7 @@ import com.clivenspetit.bowlingscoring.domain.game.AbstractScoreProcessor;
 import com.clivenspetit.bowlingscoring.domain.game.Player;
 import com.clivenspetit.bowlingscoring.domain.game.repository.BowlingRepository;
 import com.clivenspetit.bowlingscoring.domain.utility.FileUtils;
+import com.clivenspetit.bowlingscoring.domain.utility.StubFrame;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.junit.After;
